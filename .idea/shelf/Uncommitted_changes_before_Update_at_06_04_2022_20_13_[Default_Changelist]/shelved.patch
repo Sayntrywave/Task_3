@@ -1,0 +1,137 @@
+Index: src/course1/FrameMain.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package course1;\r\n\r\nimport com.intellij.uiDesigner.core.GridConstraints;\r\nimport com.intellij.uiDesigner.core.GridLayoutManager;\r\nimport com.intellij.uiDesigner.core.Spacer;\r\nimport util.ArrayUtils;\r\nimport util.Customer;\r\nimport util.JTableUtils;\r\nimport util.SwingUtils;\r\n\r\nimport javax.swing.*;\r\nimport javax.swing.filechooser.FileFilter;\r\nimport javax.swing.filechooser.FileNameExtensionFilter;\r\nimport java.awt.*;\r\nimport java.awt.event.ActionEvent;\r\nimport java.awt.event.ActionListener;\r\nimport java.io.File;\r\nimport java.util.LinkedList;\r\nimport java.util.Queue;\r\n\r\n\r\npublic class FrameMain extends JFrame {\r\n    private JPanel panelMain;\r\n    private JTable tableInput;\r\n    private JButton выполнитьButton;\r\n    private JButton buttonLoadInputFromFile;\r\n    private JButton buttonRandomInput;\r\n    private JButton buttonSaveInputInfoFile;\r\n    private JButton buttonReverseRows;\r\n    private JButton buttonSaveOutputIntoFile;\r\n    private JTable tableOutput;\r\n    private JButton buttonReverseColumns;\r\n\r\n    private JFileChooser fileChooserOpen;\r\n    private JFileChooser fileChooserSave;\r\n    private JMenuBar menuBarMain;\r\n    private JMenu menuLookAndFeel;\r\n\r\n\r\n    public FrameMain() {\r\n        this.setTitle(\"FrameMain\");\r\n        this.setContentPane(panelMain);\r\n        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);\r\n        this.pack();\r\n\r\n        JTableUtils.initJTableForArray(tableInput, 40, false, false, true, false);\r\n        // JTableUtils.initJTableForArray(tableOutput, 40, true, true, true, true);\r\n        //tableOutput.setEnabled(false);\r\n        tableInput.setRowHeight(25);\r\n        //tableOutput.setRowHeight(25);\r\n\r\n        fileChooserOpen = new JFileChooser();\r\n        fileChooserSave = new JFileChooser();\r\n        fileChooserOpen.setCurrentDirectory(new File(\".\"));\r\n        fileChooserSave.setCurrentDirectory(new File(\".\"));\r\n        FileFilter filter = new FileNameExtensionFilter(\"Text files\", \"txt\");\r\n        fileChooserOpen.addChoosableFileFilter(filter);\r\n        fileChooserSave.addChoosableFileFilter(filter);\r\n\r\n        fileChooserSave.setAcceptAllFileFilterUsed(false);\r\n        fileChooserSave.setDialogType(JFileChooser.SAVE_DIALOG);\r\n        fileChooserSave.setApproveButtonText(\"Save\");\r\n\r\n        menuBarMain = new JMenuBar();\r\n        setJMenuBar(menuBarMain);\r\n\r\n        menuLookAndFeel = new JMenu();\r\n        menuLookAndFeel.setText(\"Вид\");\r\n        menuBarMain.add(menuLookAndFeel);\r\n        SwingUtils.initLookAndFeelMenu(menuLookAndFeel);\r\n\r\n        JTableUtils.writeArrayToJTable(tableInput, new int[][]{\r\n                // {24, 60, 60, 300, 10, 0}\r\n                {0, 0, 50, 10, 10, 0},\r\n                {0, 1, 0, 10, 10, 0},\r\n                {0, 1, 10, 10, 10, 0}\r\n        });\r\n\r\n        this.pack();\r\n\r\n\r\n /*       buttonLoadInputFromFile.addActionListener(new ActionListener() {\r\n            @Override\r\n            public void actionPerformed(ActionEvent actionEvent) {\r\n                try {\r\n                    if (fileChooserOpen.showOpenDialog(panelMain) == JFileChooser.APPROVE_OPTION) {\r\n                        int[][] arr = ArrayUtils.readIntArray2FromFile(fileChooserOpen.getSelectedFile().getPath());\r\n                        JTableUtils.writeArrayToJTable(tableInput, arr);\r\n                    }\r\n                } catch (Exception e) {\r\n                    SwingUtils.showErrorMessageBox(e);\r\n                }\r\n            }\r\n        });\r\n        buttonRandomInput.addActionListener(new ActionListener() {\r\n            @Override\r\n            public void actionPerformed(ActionEvent actionEvent) {\r\n                try {\r\n                    int[][] matrix = ArrayUtils.createRandomIntMatrix(\r\n                            tableInput.getRowCount(), tableInput.getColumnCount(), 100);\r\n                    JTableUtils.writeArrayToJTable(tableInput, matrix);\r\n                } catch (Exception e) {\r\n                    SwingUtils.showErrorMessageBox(e);\r\n                }\r\n            }\r\n        });\r\n        buttonSaveInputInfoFile.addActionListener(new ActionListener() {\r\n            @Override\r\n            public void actionPerformed(ActionEvent actionEvent) {\r\n                try {\r\n                    if (fileChooserSave.showSaveDialog(panelMain) == JFileChooser.APPROVE_OPTION) {\r\n                        int[][] matrix = JTableUtils.readIntMatrixFromJTable(tableInput);\r\n                        String file = fileChooserSave.getSelectedFile().getPath();\r\n                        if (!file.toLowerCase().endsWith(\".txt\")) {\r\n                            file += \".txt\";\r\n                        }\r\n                        ArrayUtils.writeArrayToFile(file, matrix);\r\n                    }\r\n                } catch (Exception e) {\r\n                    SwingUtils.showErrorMessageBox(e);\r\n                }\r\n            }\r\n        });\r\n        buttonSaveOutputIntoFile.addActionListener(new ActionListener() {\r\n            @Override\r\n            public void actionPerformed(ActionEvent actionEvent) {\r\n                try {\r\n                    if (fileChooserSave.showSaveDialog(panelMain) == JFileChooser.APPROVE_OPTION) {\r\n                        int[][] matrix = JTableUtils.readIntMatrixFromJTable(tableOutput);\r\n                        String file = fileChooserSave.getSelectedFile().getPath();\r\n                        if (!file.toLowerCase().endsWith(\".txt\")) {\r\n                            file += \".txt\";\r\n                        }\r\n                        ArrayUtils.writeArrayToFile(file, matrix);\r\n                    }\r\n                } catch (Exception e) {\r\n                    SwingUtils.showErrorMessageBox(e);\r\n                }\r\n            }\r\n        });\r\n        buttonReverseRows.addActionListener(new ActionListener() {\r\n            @Override\r\n            public void actionPerformed(ActionEvent actionEvent) {\r\n                try {\r\n                    int[][] matrix = JTableUtils.readIntMatrixFromJTable(tableInput);\r\n                    Task.reverseRows(matrix);\r\n                    JTableUtils.writeArrayToJTable(tableOutput, matrix);\r\n                } catch (Exception e) {\r\n                    SwingUtils.showErrorMessageBox(e);\r\n                }\r\n            }\r\n        });\r\n        buttonReverseColumns.addActionListener(new ActionListener() {\r\n            @Override\r\n            public void actionPerformed(ActionEvent actionEvent) {\r\n                try {\r\n                    int[][] matrix = JTableUtils.readIntMatrixFromJTable(tableInput);\r\n                    Task.reverseColumns(matrix);\r\n                    JTableUtils.writeArrayToJTable(tableOutput, matrix);\r\n                } catch (Exception e) {\r\n                    SwingUtils.showErrorMessageBox(e);\r\n                }\r\n            }\r\n        });*/\r\n        выполнитьButton.addActionListener(new ActionListener() {\r\n            @Override\r\n            public void actionPerformed(ActionEvent actionEvent) {\r\n                try {\r\n                    int[][] matrix = JTableUtils.readIntMatrixFromJTable(tableInput);\r\n                    assert matrix != null;\r\n                    Queue<Customer> queue = Task.sort(matrix);\r\n\r\n//                     value = queue.peek().getChoosingTime();\r\n//                    matrix[0][5] = value;\r\n                    int value = 0;\r\n                    //value += queue.remove().getTimeToQueue();\r\n                    int prevTime = 0;\r\n                    int timeWaiting = 0;\r\n                    for (int i = 0; i < matrix.length; i++) {\r\n                        int temp = queue.peek().getTimeToQueue();\r\n                        timeWaiting = prevTime + timeWaiting - temp;\r\n\r\n                        if (timeWaiting > 0) {\r\n                            matrix[i][5] = timeWaiting + queue.peek().getAmountOfGoods();\r\n                        }\r\n                        prevTime = queue.peek().getTimeToQueue() + timeWaiting + queue.peek().getAmountOfGoods();\r\n                        //value += queue.peek().getChoosingTime();\r\n                        ///matrix[i][5] = value;\r\n                        //value += queue.remove().getTimeToQueue();\r\n                    }\r\n\r\n                    JTableUtils.writeArrayToJTable(tableInput, matrix);\r\n                } catch (Exception e) {\r\n                    SwingUtils.showErrorMessageBox(e);\r\n                }\r\n            }\r\n        });\r\n    }\r\n\r\n    {\r\n// GUI initializer generated by IntelliJ IDEA GUI Designer\r\n// >>> IMPORTANT!! <<<\r\n// DO NOT EDIT OR ADD ANY CODE HERE!\r\n        $$$setupUI$$$();\r\n    }\r\n\r\n    /**\r\n     * Method generated by IntelliJ IDEA GUI Designer\r\n     * >>> IMPORTANT!! <<<\r\n     * DO NOT edit this method OR call it in your code!\r\n     *\r\n     * @noinspection ALL\r\n     */\r\n    private void $$$setupUI$$$() {\r\n        panelMain = new JPanel();\r\n        panelMain.setLayout(new GridLayoutManager(7, 2, new Insets(10, 10, 10, 10), 10, 10));\r\n        final JScrollPane scrollPane1 = new JScrollPane();\r\n        scrollPane1.setVerticalScrollBarPolicy(21);\r\n        panelMain.add(scrollPane1, new GridConstraints(1, 0, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(-1, 200), null, 0, false));\r\n        tableInput = new JTable();\r\n        scrollPane1.setViewportView(tableInput);\r\n        final JPanel panel1 = new JPanel();\r\n        panel1.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));\r\n        panelMain.add(panel1, new GridConstraints(2, 0, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));\r\n        выполнитьButton = new JButton();\r\n        выполнитьButton.setText(\"Выполнить\");\r\n        panel1.add(выполнитьButton, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));\r\n        final JLabel label1 = new JLabel();\r\n        label1.setText(\"Нажимайте на + или на -, чтобы увеличить или уменьшить кол-во покупателей\");\r\n        panelMain.add(label1, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));\r\n        final JLabel label2 = new JLabel();\r\n        label2.setText(\"1, 2, 3  ячейки - это  часы, минуты и секунды соответсвенно\");\r\n        panelMain.add(label2, new GridConstraints(3, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));\r\n        final JLabel label3 = new JLabel();\r\n        label3.setText(\"4 - это время \\\"выбора\\\" товаров покупателем в секундах\");\r\n        panelMain.add(label3, new GridConstraints(4, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));\r\n        final JLabel label4 = new JLabel();\r\n        label4.setText(\"5 - это кол-во товаров\");\r\n        panelMain.add(label4, new GridConstraints(5, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));\r\n        final JLabel label5 = new JLabel();\r\n        label5.setText(\"6 - это резльтат программы(туда ничего не надо писать, просто нажмите кнопку \\\"выполнить\\\")\");\r\n        panelMain.add(label5, new GridConstraints(6, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));\r\n    }\r\n\r\n    /**\r\n     * @noinspection ALL\r\n     */\r\n    public JComponent $$$getRootComponent$$$() {\r\n        return panelMain;\r\n    }\r\n\r\n    private void createUIComponents() {\r\n        // TODO: place custom component creation code here\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/course1/FrameMain.java b/src/course1/FrameMain.java
+--- a/src/course1/FrameMain.java	(revision d7a7b248308bf8bc0f104ee14499bfbb797a38ad)
++++ b/src/course1/FrameMain.java	(date 1649265171313)
+@@ -172,18 +172,22 @@
+ 
+ //                     value = queue.peek().getChoosingTime();
+ //                    matrix[0][5] = value;
+-                    int value = 0;
++                    //int value = 0;
+                     //value += queue.remove().getTimeToQueue();
+                     int prevTime = 0;
+                     int timeWaiting = 0;
+                     for (int i = 0; i < matrix.length; i++) {
+                         int temp = queue.peek().getTimeToQueue();
+-                        timeWaiting = prevTime + timeWaiting - temp;
++                        timeWaiting = prevTime - temp;
+ 
+-                        if (timeWaiting > 0) {
+-                            matrix[i][5] = timeWaiting + queue.peek().getAmountOfGoods();
++                        if (timeWaiting < 0) {
++                            timeWaiting = 0;
++                            //matrix[i][5] = timeWaiting + queue.peek().getAmountOfGoods();
+                         }
+-                        prevTime = queue.peek().getTimeToQueue() + timeWaiting + queue.peek().getAmountOfGoods();
++                        prevTime = temp + timeWaiting + queue.peek().getAmountOfGoods();
++                        matrix[i][5] = temp + timeWaiting + queue.peek().getAmountOfGoods();
++                        queue.remove();
++                        //prevTime = queue.peek().getTimeToQueue() + timeWaiting + queue.peek().getAmountOfGoods();
+                         //value += queue.peek().getChoosingTime();
+                         ///matrix[i][5] = value;
+                         //value += queue.remove().getTimeToQueue();
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"ArtifactsWorkspaceSettings\">\r\n    <artifacts-to-build>\r\n      <artifact name=\"Arr2JTableDemo:jar\" />\r\n    </artifacts-to-build>\r\n  </component>\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"de9af44f-d963-4951-804e-d356db7c5e76\" name=\"Default Changelist\" comment=\"\" />\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"CodeStyleSettingsInfer\">\r\n    <option name=\"done\" value=\"true\" />\r\n  </component>\r\n  <component name=\"DefaultGradleProjectSettings\">\r\n    <option name=\"isMigrated\" value=\"true\" />\r\n  </component>\r\n  <component name=\"FileTemplateManagerImpl\">\r\n    <option name=\"RECENT_TEMPLATES\">\r\n      <list>\r\n        <option value=\"Class\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"ProjectCodeStyleSettingsMigration\">\r\n    <option name=\"version\" value=\"1\" />\r\n  </component>\r\n  <component name=\"ProjectId\" id=\"1SvBluYwH7FMQCOVVHEGxiLaqAR\" />\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\">\r\n    <property name=\"Downloaded.Files.Path.Enabled\" value=\"false\" />\r\n    <property name=\"Repository.Attach.Annotations\" value=\"false\" />\r\n    <property name=\"Repository.Attach.JavaDocs\" value=\"false\" />\r\n    <property name=\"Repository.Attach.Sources\" value=\"false\" />\r\n    <property name=\"RunOnceActivity.OpenProjectViewOnStart\" value=\"true\" />\r\n    <property name=\"RunOnceActivity.ShowReadmeOnStart\" value=\"true\" />\r\n    <property name=\"UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.WIDTH\" value=\"293\" />\r\n    <property name=\"WebServerToolWindowFactoryState\" value=\"false\" />\r\n    <property name=\"last_opened_file_path\" value=\"$PROJECT_DIR$\" />\r\n    <property name=\"project.structure.last.edited\" value=\"Modules\" />\r\n    <property name=\"project.structure.proportion\" value=\"0.15\" />\r\n    <property name=\"project.structure.side.proportion\" value=\"0.43793103\" />\r\n    <property name=\"settings.editor.selected.configurable\" value=\"preferences.pluginManager\" />\r\n  </component>\r\n  <component name=\"RunManager\" selected=\"Application.Main (--window)\">\r\n    <configuration name=\"Main (--window)\" type=\"Application\" factoryName=\"Application\" temporary=\"true\">\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"course1.Program\" />\r\n      <module name=\"Task_3\" />\r\n      <option name=\"PROGRAM_PARAMETERS\" value=\"--window\" />\r\n      <RunnerSettings RunnerId=\"Run\" />\r\n      <ConfigurationWrapper RunnerId=\"Run\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"Main (-c 222.txt)\" type=\"Application\" factoryName=\"Application\">\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"course1.Program\" />\r\n      <module name=\"Task_3\" />\r\n      <option name=\"PROGRAM_PARAMETERS\" value=\"-c 222.txt\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"Main (-r 111.txt)\" type=\"Application\" factoryName=\"Application\">\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"course1.Program\" />\r\n      <module name=\"Task_3\" />\r\n      <option name=\"PROGRAM_PARAMETERS\" value=\"-r 111.txt\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <list>\r\n      <item itemvalue=\"Application.Main (-r 111.txt)\" />\r\n      <item itemvalue=\"Application.Main (-c 222.txt)\" />\r\n      <item itemvalue=\"Application.Main (--window)\" />\r\n    </list>\r\n    <recent_temporary>\r\n      <list>\r\n        <item itemvalue=\"Application.Main (--window)\" />\r\n      </list>\r\n    </recent_temporary>\r\n  </component>\r\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\r\n  <component name=\"SvnConfiguration\">\r\n    <configuration />\r\n  </component>\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"de9af44f-d963-4951-804e-d356db7c5e76\" name=\"Default Changelist\" comment=\"\" />\r\n      <created>1572215785802</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1572215785802</updated>\r\n      <workItem from=\"1649253692929\" duration=\"209000\" />\r\n      <workItem from=\"1649260627661\" duration=\"20000\" />\r\n      <workItem from=\"1649260653785\" duration=\"3352000\" />\r\n    </task>\r\n    <servers />\r\n  </component>\r\n  <component name=\"TypeScriptGeneratedFilesManager\">\r\n    <option name=\"version\" value=\"3\" />\r\n  </component>\r\n  <component name=\"XDebuggerManager\">\r\n    <breakpoint-manager>\r\n      <breakpoints>\r\n        <line-breakpoint enabled=\"true\" type=\"java-line\">\r\n          <url>file://$PROJECT_DIR$/src/course1/FrameMain.java</url>\r\n          <line>178</line>\r\n          <option name=\"timeStamp\" value=\"1\" />\r\n        </line-breakpoint>\r\n      </breakpoints>\r\n    </breakpoint-manager>\r\n  </component>\r\n  <component name=\"com.intellij.coverage.CoverageDataManagerImpl\">\r\n    <SUITE FILE_PATH=\"coverage/FirstSwing$Main.ic\" NAME=\"Main Coverage Results\" MODIFIED=\"1572217616124\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"idea\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision d7a7b248308bf8bc0f104ee14499bfbb797a38ad)
++++ b/.idea/workspace.xml	(date 1649265171699)
+@@ -6,7 +6,12 @@
+     </artifacts-to-build>
+   </component>
+   <component name="ChangeListManager">
+-    <list default="true" id="de9af44f-d963-4951-804e-d356db7c5e76" name="Default Changelist" comment="" />
++    <list default="true" id="de9af44f-d963-4951-804e-d356db7c5e76" name="Default Changelist" comment="">
++      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/course1/FrameMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/course1/FrameMain.java" afterDir="false" />
++    </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+@@ -24,11 +29,15 @@
+         <option value="Class" />
+       </list>
+     </option>
++  </component>
++  <component name="Git.Settings">
++    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+   </component>
+   <component name="ProjectCodeStyleSettingsMigration">
+     <option name="version" value="1" />
+   </component>
+   <component name="ProjectId" id="1SvBluYwH7FMQCOVVHEGxiLaqAR" />
++  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+   <component name="ProjectViewState">
+     <option name="hideEmptyMiddlePackages" value="true" />
+     <option name="showLibraryContents" value="true" />
+@@ -99,12 +108,23 @@
+       <updated>1572215785802</updated>
+       <workItem from="1649253692929" duration="209000" />
+       <workItem from="1649260627661" duration="20000" />
+-      <workItem from="1649260653785" duration="3352000" />
++      <workItem from="1649260653785" duration="4488000" />
+     </task>
+     <servers />
+   </component>
+   <component name="TypeScriptGeneratedFilesManager">
+     <option name="version" value="3" />
++  </component>
++  <component name="Vcs.Log.Tabs.Properties">
++    <option name="TAB_STATES">
++      <map>
++        <entry key="MAIN">
++          <value>
++            <State />
++          </value>
++        </entry>
++      </map>
++    </option>
+   </component>
+   <component name="XDebuggerManager">
+     <breakpoint-manager>
+Index: .idea/vcs.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"VcsDirectoryMappings\">\r\n    <mapping directory=\"\" vcs=\"\" />\r\n  </component>\r\n</project>\r\n\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/vcs.xml b/.idea/vcs.xml
+--- a/.idea/vcs.xml	(revision d7a7b248308bf8bc0f104ee14499bfbb797a38ad)
++++ b/.idea/vcs.xml	(date 1649264059532)
+@@ -1,7 +1,6 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <project version="4">
+   <component name="VcsDirectoryMappings">
+-    <mapping directory="" vcs="" />
++    <mapping directory="$PROJECT_DIR$" vcs="Git" />
+   </component>
+-</project>
+-
++</project>
+\ No newline at end of file
+Index: .gitignore
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.gitignore b/.gitignore
+new file mode 100644
+--- /dev/null	(date 1649264052092)
++++ b/.gitignore	(date 1649264052092)
+@@ -0,0 +1,2 @@
++# Project exclude paths
++/out/
+\ No newline at end of file

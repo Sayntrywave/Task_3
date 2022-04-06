@@ -172,18 +172,22 @@ public class FrameMain extends JFrame {
 
 //                     value = queue.peek().getChoosingTime();
 //                    matrix[0][5] = value;
-                    int value = 0;
+                    //int value = 0;
                     //value += queue.remove().getTimeToQueue();
                     int prevTime = 0;
                     int timeWaiting = 0;
                     for (int i = 0; i < matrix.length; i++) {
                         int temp = queue.peek().getTimeToQueue();
-                        timeWaiting = prevTime + timeWaiting - temp;
+                        timeWaiting = prevTime - temp;
 
-                        if (timeWaiting > 0) {
-                            matrix[i][5] = timeWaiting + queue.peek().getAmountOfGoods();
+                        if (timeWaiting < 0) {
+                            timeWaiting = 0;
+                            //matrix[i][5] = timeWaiting + queue.peek().getAmountOfGoods();
                         }
-                        prevTime = queue.peek().getTimeToQueue() + timeWaiting + queue.peek().getAmountOfGoods();
+                        prevTime = temp + timeWaiting + queue.peek().getAmountOfGoods();
+                        matrix[i][5] = temp + timeWaiting + queue.peek().getAmountOfGoods();
+                        queue.remove();
+                        //prevTime = queue.peek().getTimeToQueue() + timeWaiting + queue.peek().getAmountOfGoods();
                         //value += queue.peek().getChoosingTime();
                         ///matrix[i][5] = value;
                         //value += queue.remove().getTimeToQueue();
