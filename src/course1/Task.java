@@ -1,6 +1,7 @@
 package course1;
 
 import util.Customer;
+import util.SimpleQueue;
 
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -42,6 +43,16 @@ public class Task {
 
     public static Queue<Customer> matrixToQueueCustomers(int[][] matrix){
         Queue<Customer> queue = new LinkedList<>();
+
+        for (int[] customer : matrix) {
+            int timeIn = (customer[0]*60 + customer[1])*60 + customer[2];
+            queue.add(new Customer(timeIn,customer[3],customer[4]));
+        }
+
+        return queue;
+    }
+    public static SimpleQueue<Customer> matrixToSimpleQueueCustomers(int[][] matrix){
+        SimpleQueue<Customer> queue = new SimpleQueue<>();
 
         for (int[] customer : matrix) {
             int timeIn = (customer[0]*60 + customer[1])*60 + customer[2];

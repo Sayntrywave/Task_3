@@ -6,10 +6,8 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="de9af44f-d963-4951-804e-d356db7c5e76" name="Default Changelist" comment="1st commit">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="de9af44f-d963-4951-804e-d356db7c5e76" name="Default Changelist" comment="2nd commit">
       <change beforePath="$PROJECT_DIR$/src/course1/FrameMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/course1/FrameMain.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/course1/Program.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/course1/Program.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/course1/Task.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/course1/Task.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -118,7 +116,7 @@
       <workItem from="1649260627661" duration="20000" />
       <workItem from="1649260653785" duration="6606000" />
       <workItem from="1649344644686" duration="1108000" />
-      <workItem from="1649403076897" duration="13611000" />
+      <workItem from="1649403076897" duration="14122000" />
     </task>
     <task id="LOCAL-00001" summary="1st commit">
       <created>1649265822056</created>
@@ -127,7 +125,14 @@
       <option name="project" value="LOCAL" />
       <updated>1649265822057</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="2nd commit">
+      <created>1649428856842</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1649428856843</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -147,19 +152,20 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="1st commit" />
-    <option name="LAST_COMMIT_MESSAGE" value="1st commit" />
+    <MESSAGE value="2nd commit" />
+    <option name="LAST_COMMIT_MESSAGE" value="2nd commit" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/course1/FrameMain.java</url>
-          <line>208</line>
+          <line>206</line>
           <option name="timeStamp" value="1" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/course1/FrameMain.java</url>
-          <line>182</line>
+          <line>180</line>
           <option name="timeStamp" value="5" />
         </line-breakpoint>
       </breakpoints>

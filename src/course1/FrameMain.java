@@ -3,10 +3,7 @@ package course1;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
-import util.ArrayUtils;
-import util.Customer;
-import util.JTableUtils;
-import util.SwingUtils;
+import util.*;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
@@ -170,18 +167,19 @@ public class FrameMain extends JFrame {
 
                     int[][] result = Task.sort(matrix);
 
-                    Queue<Customer> customers = Task.matrixToQueueCustomers(result);
+                    SimpleQueue<Customer> customers = Task.matrixToSimpleQueueCustomers(result);
+                    //Queue<Customer> customers = Task.matrixToQueueCustomers(result);
 
                     int prev = -1;
-                    if (!customers.isEmpty()) {
-                        prev = customers.peek().getTimeToQueue() + customers.peek().getAmountOfGoods();
+                    if (customers.size() != 0) {
+                        prev = customers.element().getTimeToQueue() + customers.element().getAmountOfGoods();
                     }
 
                     int amountOfGoods;
                     int timeToQueue;
 
                     for (int i = 0; customers.size() != 0; i++) {
-                        amountOfGoods = customers.peek().getAmountOfGoods();
+                        amountOfGoods = customers.element().getAmountOfGoods();
                         timeToQueue = customers.remove().getTimeToQueue();
                         prev = Math.max(timeToQueue, prev) + amountOfGoods;
                         result[i][5] = prev;
