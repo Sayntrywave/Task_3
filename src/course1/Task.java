@@ -62,56 +62,23 @@ public class Task {
         return queue;
     }
 
+    public static void addTimeOut(int[][] matrix) throws Exception {
+        SimpleQueue<Customer> customers = Task.matrixToSimpleQueueCustomers(matrix);
+        //Queue<Customer> customers = Task.matrixToQueueCustomers(result);
 
-
-    //Тут были рабочие методы сортировки очереди, но из-за свинга ничего не получилось
-    //Зачем тут графический интерфейс :(
-
-    /*private static void add(Queue<Customer> queue, Customer newCustomer){
-        if(queue.isEmpty()){
-            queue.add(newCustomer);
-            return;
+        int prev = -1;
+        if (customers.size() != 0) {
+            prev = customers.element().getTimeToQueue() + customers.element().getAmountOfGoods();
         }
-        for (int i = 0; i < queue.size(); i++) {
-            if(!(newCustomer.getTimeToQueue() > queue.element().getTimeToQueue())){
-                break;
-            }
-            queue.add(queue.remove());
-        }
-*//*        while (newCustomer.getTimeToQueue() > queue.element().getTimeToQueue()){
-            queue.add(queue.remove());
-        }*//*
-        queue.add(newCustomer);
-        while (newCustomer.getTimeToQueue() <= queue.element().getTimeToQueue() && !queue.element().equals(newCustomer)){
-            queue.add(queue.remove());
+
+        int amountOfGoods;
+        int timeToQueue;
+
+        for (int i = 0; customers.size() != 0; i++) {
+            amountOfGoods = customers.element().getAmountOfGoods();
+            timeToQueue = customers.remove().getTimeToQueue();
+            prev = Math.max(timeToQueue, prev) + amountOfGoods;
+            matrix[i][5] = prev;
         }
     }
-    public static Queue<Customer> sort(int[][] matrix){
-        Queue<Customer> queue = new LinkedList<>();
-        assert matrix != null;
-        int time = (matrix[0][0]*60 + matrix[0][1])*60 + matrix[0][2];
-        add(queue,new Customer(time,matrix[0][3],matrix[0][4]));
-
-        for (int i = 1; i < matrix.length; i++) {
-            time = matrix[i][0]*24 + matrix[i][1]*60 + matrix[i][2];
-            Customer newCustomer = new Customer(time,matrix[i][3],matrix[i][4]);
-            add(queue,newCustomer);
-        }
-        return queue;
-    }
-
-    public static void copyQueue(Queue<Customer> queue, int[][] matrix){
-        for (int i = 0; i <  queue.size(); i++) {
-            Customer customer = queue.peek();
-            queue.add(queue.remove());
-            for (int j = 0; j < matrix.length; j++) {
-                int time = (matrix[j][0]*60 + matrix[j][1])*60 + matrix[j][2];
-                int choosingTime = matrix[j][3];
-                int amountOfGoods = matrix[j][4];
-                if(time == customer.getTimeIn() && choosingTime == customer.getChoosingTime() && amountOfGoods == customer.getAmountOfGoods() ){
-                    //matrix[]
-                }
-            }
-        }
-    }*/
 }

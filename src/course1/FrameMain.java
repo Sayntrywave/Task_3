@@ -2,7 +2,6 @@ package course1;
 
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
-import com.intellij.uiDesigner.core.Spacer;
 import util.*;
 
 import javax.swing.*;
@@ -12,14 +11,12 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.util.LinkedList;
-import java.util.Queue;
 
 
 public class FrameMain extends JFrame {
     private JPanel panelMain;
     private JTable tableInput;
-    private JButton выполнитьButton;
+    private JButton Button;
     private JButton buttonLoadInputFromFile;
     private JButton buttonRandomInput;
     private JButton buttonSaveInputInfoFile;
@@ -41,10 +38,8 @@ public class FrameMain extends JFrame {
         this.pack();
 
         JTableUtils.initJTableForArray(tableInput, 40, false, false, true, false);
-        // JTableUtils.initJTableForArray(tableOutput, 40, true, true, true, true);
-        //tableOutput.setEnabled(false);
+
         tableInput.setRowHeight(25);
-        //tableOutput.setRowHeight(25);
 
         fileChooserOpen = new JFileChooser();
         fileChooserSave = new JFileChooser();
@@ -75,91 +70,7 @@ public class FrameMain extends JFrame {
 
         this.pack();
 
-
- /*       buttonLoadInputFromFile.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                try {
-                    if (fileChooserOpen.showOpenDialog(panelMain) == JFileChooser.APPROVE_OPTION) {
-                        int[][] arr = ArrayUtils.readIntArray2FromFile(fileChooserOpen.getSelectedFile().getPath());
-                        JTableUtils.writeArrayToJTable(tableInput, arr);
-                    }
-                } catch (Exception e) {
-                    SwingUtils.showErrorMessageBox(e);
-                }
-            }
-        });
-        buttonRandomInput.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                try {
-                    int[][] matrix = ArrayUtils.createRandomIntMatrix(
-                            tableInput.getRowCount(), tableInput.getColumnCount(), 100);
-                    JTableUtils.writeArrayToJTable(tableInput, matrix);
-                } catch (Exception e) {
-                    SwingUtils.showErrorMessageBox(e);
-                }
-            }
-        });
-        buttonSaveInputInfoFile.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                try {
-                    if (fileChooserSave.showSaveDialog(panelMain) == JFileChooser.APPROVE_OPTION) {
-                        int[][] matrix = JTableUtils.readIntMatrixFromJTable(tableInput);
-                        String file = fileChooserSave.getSelectedFile().getPath();
-                        if (!file.toLowerCase().endsWith(".txt")) {
-                            file += ".txt";
-                        }
-                        ArrayUtils.writeArrayToFile(file, matrix);
-                    }
-                } catch (Exception e) {
-                    SwingUtils.showErrorMessageBox(e);
-                }
-            }
-        });
-        buttonSaveOutputIntoFile.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                try {
-                    if (fileChooserSave.showSaveDialog(panelMain) == JFileChooser.APPROVE_OPTION) {
-                        int[][] matrix = JTableUtils.readIntMatrixFromJTable(tableOutput);
-                        String file = fileChooserSave.getSelectedFile().getPath();
-                        if (!file.toLowerCase().endsWith(".txt")) {
-                            file += ".txt";
-                        }
-                        ArrayUtils.writeArrayToFile(file, matrix);
-                    }
-                } catch (Exception e) {
-                    SwingUtils.showErrorMessageBox(e);
-                }
-            }
-        });
-        buttonReverseRows.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                try {
-                    int[][] matrix = JTableUtils.readIntMatrixFromJTable(tableInput);
-                    Task.reverseRows(matrix);
-                    JTableUtils.writeArrayToJTable(tableOutput, matrix);
-                } catch (Exception e) {
-                    SwingUtils.showErrorMessageBox(e);
-                }
-            }
-        });
-        buttonReverseColumns.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                try {
-                    int[][] matrix = JTableUtils.readIntMatrixFromJTable(tableInput);
-                    Task.reverseColumns(matrix);
-                    JTableUtils.writeArrayToJTable(tableOutput, matrix);
-                } catch (Exception e) {
-                    SwingUtils.showErrorMessageBox(e);
-                }
-            }
-        });*/
-        выполнитьButton.addActionListener(new ActionListener() {
+        Button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 try {
@@ -167,59 +78,7 @@ public class FrameMain extends JFrame {
 
                     int[][] result = Task.sort(matrix);
 
-                    SimpleQueue<Customer> customers = Task.matrixToSimpleQueueCustomers(result);
-                    //Queue<Customer> customers = Task.matrixToQueueCustomers(result);
-
-                    int prev = -1;
-                    if (customers.size() != 0) {
-                        prev = customers.element().getTimeToQueue() + customers.element().getAmountOfGoods();
-                    }
-
-                    int amountOfGoods;
-                    int timeToQueue;
-
-                    for (int i = 0; customers.size() != 0; i++) {
-                        amountOfGoods = customers.element().getAmountOfGoods();
-                        timeToQueue = customers.remove().getTimeToQueue();
-                        prev = Math.max(timeToQueue, prev) + amountOfGoods;
-                        result[i][5] = prev;
-                    }
-
-                    /*
-                    assert matrix != null;
-
-                    Queue<Customer> queue = Task.sort(matrix);
-                    //int[][] result = ;
-                    for (; 0 < queue.size(); ) {
-                        System.out.println(queue.remove());
-                    }
-                    System.out.println();
-
-*/
-
-
-//                     value = queue.peek().getChoosingTime();
-//                    matrix[0][5] = value;
-                    //int value = 0;
-                    //value += queue.remove().getTimeToQueue();
-/*                    int prevTime = 0;
-                    int timeWaiting = 0;
-                    for (int i = 0; i < matrix.length; i++) {
-                        int temp = queue.peek().getTimeToQueue();
-                        timeWaiting = prevTime - temp;
-
-                        if (timeWaiting < 0) {
-                            timeWaiting = 0;
-                            //matrix[i][5] = timeWaiting + queue.peek().getAmountOfGoods();
-                        }
-                        prevTime = temp + timeWaiting + queue.peek().getAmountOfGoods();
-                        matrix[i][5] = temp + timeWaiting + queue.peek().getAmountOfGoods();
-                        queue.remove();
-                        //prevTime = queue.peek().getTimeToQueue() + timeWaiting + queue.peek().getAmountOfGoods();
-                        //value += queue.peek().getChoosingTime();
-                        ///matrix[i][5] = value;
-                        //value += queue.remove().getTimeToQueue();
-                    }*/
+                    Task.addTimeOut(result);
 
                     JTableUtils.writeArrayToJTable(tableInput, result);
                 } catch (Exception e) {
@@ -254,9 +113,9 @@ public class FrameMain extends JFrame {
         final JPanel panel1 = new JPanel();
         panel1.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
         panelMain.add(panel1, new GridConstraints(2, 0, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
-        выполнитьButton = new JButton();
-        выполнитьButton.setText("Выполнить");
-        panel1.add(выполнитьButton, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        Button = new JButton();
+        Button.setText("Выполнить");
+        panel1.add(Button, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JLabel label1 = new JLabel();
         label1.setText("Нажимайте на + или на -, чтобы увеличить или уменьшить кол-во покупателей");
         panelMain.add(label1, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
