@@ -167,14 +167,44 @@ public class FrameMain extends JFrame {
             public void actionPerformed(ActionEvent actionEvent) {
                 try {
                     int[][] matrix = JTableUtils.readIntMatrixFromJTable(tableInput);
+
+                    int[][] result = Task.sort(matrix);
+
+                    Queue<Customer> customers = Task.matrixToQueueCustomers(result);
+
+                    int prev = -1;
+                    if (!customers.isEmpty()) {
+                        prev = customers.peek().getTimeToQueue() + customers.peek().getAmountOfGoods();
+                    }
+
+                    int amountOfGoods;
+                    int timeToQueue;
+
+                    for (int i = 0; customers.size() != 0; i++) {
+                        amountOfGoods = customers.peek().getAmountOfGoods();
+                        timeToQueue = customers.remove().getTimeToQueue();
+                        prev = Math.max(timeToQueue, prev) + amountOfGoods;
+                        result[i][5] = prev;
+                    }
+
+                    /*
                     assert matrix != null;
+
                     Queue<Customer> queue = Task.sort(matrix);
+                    //int[][] result = ;
+                    for (; 0 < queue.size(); ) {
+                        System.out.println(queue.remove());
+                    }
+                    System.out.println();
+
+*/
+
 
 //                     value = queue.peek().getChoosingTime();
 //                    matrix[0][5] = value;
                     //int value = 0;
                     //value += queue.remove().getTimeToQueue();
-                    int prevTime = 0;
+/*                    int prevTime = 0;
                     int timeWaiting = 0;
                     for (int i = 0; i < matrix.length; i++) {
                         int temp = queue.peek().getTimeToQueue();
@@ -191,9 +221,9 @@ public class FrameMain extends JFrame {
                         //value += queue.peek().getChoosingTime();
                         ///matrix[i][5] = value;
                         //value += queue.remove().getTimeToQueue();
-                    }
+                    }*/
 
-                    JTableUtils.writeArrayToJTable(tableInput, matrix);
+                    JTableUtils.writeArrayToJTable(tableInput, result);
                 } catch (Exception e) {
                     SwingUtils.showErrorMessageBox(e);
                 }
